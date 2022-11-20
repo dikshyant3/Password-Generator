@@ -15,6 +15,19 @@ const randomFunc = {
   symbol: getRandomSymbol,
 };
 //Event Listener
+clipboard.addEventListener("click", () => {
+  const textarea = document.createElement("textarea");
+  const password = resultEl.innerText;
+  if (!password) {
+    return;
+  }
+  textarea.value = password;
+  document.body.append("textarea");
+  textarea.select();
+  navigator.clipboard.writeText(textarea.value);
+  textarea.remove();
+  alert("Copied to the clipboard");
+});
 generate.addEventListener("click", () => {
   const length = +lengthEl.value;
   const hasUpper = upperEl.checked;
@@ -49,7 +62,15 @@ function generatePassword(upperCase, lowerCase, number, symbol, length) {
   if (typesCount === 0) {
     return;
   }
-  for (let i = 0; i < length; i += typesCount) {}
+  for (let i = 0; i < length; i += typesCount) {
+    typesArr.forEach((type) => {
+      const funcName = Object.keys(type)[0];
+      console.log("funcName: ", funcName);
+      generatedPassword += randomFunc[funcName]();
+    });
+  }
+  const finalPassword = generatedPassword.slice(0, length);
+  return finalPassword;
 }
 // Generator functions
 function getRandomUpper() {
