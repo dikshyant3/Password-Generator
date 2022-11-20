@@ -8,6 +8,13 @@ const lengthEl = document.getElementById("length");
 const generateEl = document.getElementById("generate");
 const clipboardEl = document.getElementById("clipboard");
 
+const randomFunc = {
+  upperCase: getRandomUpper,
+  lowerCase: getRandomLower,
+  number: getRandomNumber,
+  symbol: getRandomSymbol,
+};
+//Event Listener
 generate.addEventListener("click", () => {
   const length = +lengthEl.value;
   const hasUpper = upperEl.checked;
@@ -24,6 +31,26 @@ generate.addEventListener("click", () => {
   );
 });
 
+// Generate password Function
+function generatePassword(upperCase, lowerCase, number, symbol, length) {
+  const generatedPassword = "";
+  // To determine how many box are checked
+  const typesCount = upperCase + lowerCase + number + symbol;
+
+  //   typesArr represent the array having checked values
+  const typesArr = [
+    { upperCase },
+    { lowerCase },
+    { number },
+    { symbol },
+  ].filter((item) => Object.values(item)[0]);
+  //   Object.values(item) check whether there is the property value in the object or not and return it.In above condition Object.values(item)[0] checks whether the checkbox is checked or not and return the values which is checked in the form of array and item[0] represent the first object having unchecked property value
+  console.log("typesArr:", typesArr);
+  if (typesCount === 0) {
+    return;
+  }
+  for (let i = 0; i < length; i += typesCount) {}
+}
 // Generator functions
 function getRandomUpper() {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 65);
@@ -31,10 +58,10 @@ function getRandomUpper() {
 function getRandomLower() {
   return String.fromCharCode(Math.floor(Math.random() * 26) + 97);
 }
-function getRandomNumbers() {
+function getRandomNumber() {
   return String.fromCharCode(Math.floor(Math.random() * 10) + 48);
 }
-function getRandomSymbols() {
+function getRandomSymbol() {
   const symbols = "!@#$%^&*(){}[]=+-";
   return symbols[Math.floor(Math.random() * symbols.length)];
 }
